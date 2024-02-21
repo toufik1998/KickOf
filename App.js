@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import store from './src/store';
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
-import HomeScreen from './src/HomeScreen/HomeScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import MatchScreen from './src/screens/MatchScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -15,6 +16,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="MatchDetails" component={MatchScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

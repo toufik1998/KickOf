@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchMatches } from '../slices/matchesApiSlice';
+import { fetchMatches, fetchMatchDetails } from '../slices/matchesApiSlice';
 import axios from 'axios';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native'
 import { useGetMatchesQuery } from '../slices/matchesApiSlice'
@@ -15,7 +15,7 @@ function HomeScreen({navigation}) {
     dispatch(fetchMatches());
   }, [dispatch]);
 
-  console.log(matches.data);
+  // console.log(matches.data);
 
   if (loading === 'loading') return <Text>Loading...</Text>;
 
@@ -32,10 +32,15 @@ function HomeScreen({navigation}) {
         const humanReadableTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   
         return (
-          <View key={match.id} style={styles.card}>
-            <Text style={styles.text}>{match.name}</Text>
-            <Text style={styles.text}>{humanReadableTime}</Text>
-          </View>
+          <TouchableOpacity key={match.id} onPress={() => {
+             dispatch(fetchMatchDetails(match.id));
+             navigation.navigate('MatchDetails', { matchId: match.id });
+             }}>
+            <View key={match.id} style={styles.card}>
+              <Text style={styles.text}>{match.name}</Text>
+              <Text style={styles.text}>{humanReadableTime}</Text>
+            </View>
+          </TouchableOpacity>
         );
       })}
       </View>

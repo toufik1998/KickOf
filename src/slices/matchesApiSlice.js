@@ -27,6 +27,8 @@ import axios from 'axios';
 const token = 'vBsKHGtAjXcI6eJHOZ7zc9Oy0d5W5gcA9jobYv4gQtGT68LbSPvde2AjUkns';
 // Replace 'YOUR_API_TOKEN' with your actual API token
 const API_URL = `https://api.sportmonks.com/v3/football/fixtures?api_token=${token}&include=league;participants`;
+const MATCH_DETAILS_API_URL = id => `https://api.sportmonks.com/v3/football/fixtures/${id}?api_token=${token}&include=league;participants`;
+
 
 // Async thunk for fetching matches
 export const fetchMatches = createAsyncThunk('matches/fetchMatches', async () => {
@@ -34,10 +36,15 @@ export const fetchMatches = createAsyncThunk('matches/fetchMatches', async () =>
   return response.data;
 });
 
+export const fetchMatchDetails = createAsyncThunk('matches/fetchMatchDetails', async (id) => {
+  const response = await axios.get(MATCH_DETAILS_API_URL(id));
+  return response.data;
+});
+
 // Slice for matches
 export const matchesSlice = createSlice({
   name: 'matches',
-  initialState: { entities: [], loading: 'idle' },
+  initialState: { entities: [], matchDetails: null, loading: 'idle' },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -47,7 +54,15 @@ export const matchesSlice = createSlice({
       .addCase(fetchMatches.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.entities = action.payload;
-      });
+      })
+      .addCase(fetchMatchDetails.pending, (state) => {
+        state.loading = 'loading';
+      })
+      .addCase(fetchMatchDetails.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.matchDetails = action.payload;
+      })
+      ;
   },
 });
 
