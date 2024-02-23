@@ -13,17 +13,17 @@ function MatchScreen({ navigation, route }) {
     }, [dispatch, matchId]);
 
     const {data} = matchDetails;
-    console.warn(data);
+    // console.warn(matchDetails);
 
     if (!matchDetails) return <Text>Loading...</Text>;
 
   return (
       <View style={styles.container}>
-        <Image style={styles.tinyLogo} source={{ uri: data.league.image_path }} />
-        <Text>{data.league.name}</Text>
-        <Text>{data.name}</Text>
-        <Text>{data.starting_at}</Text>
-        <Text>{data.result_info}</Text>
+        <Image style={styles.tinyLogo} source={{ uri: matchDetails?.league?.image_path }} />
+        <Text>{data?.league?.name}</Text>
+        <Text>{data?.name}</Text>
+        <Text>{data?.starting_at}</Text>
+        <Text>{data?.result_info}</Text>
       </View>
 
   );
