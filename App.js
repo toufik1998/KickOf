@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
 import HomeScreen from './src/screens/HomeScreen';
 import MatchScreen from './src/screens/MatchScreen';
+import PlayerDetailsScreen from './src/screens/PlayerDetailsScreen';
 import MyTab from './src/components/MyTab';
 
 export default function App() {
@@ -15,11 +16,19 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="MatchDetails" component={MatchScreen} />
-        </Stack.Navigator> */}
-        <MyTab />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="MyTab"
+            component={MyTab}
+            options={{ headerShown: false }}
+          />
+            <Stack.Screen
+              name="matchDetails"
+              component={MatchScreen}
+              options={{ title: 'Match' }} />
+            <Stack.Screen name='playerDetails' component={PlayerDetailsScreen}/>
+        </Stack.Navigator>
+        {/* <MyTab /> */}
       </NavigationContainer>
     </Provider>
   );

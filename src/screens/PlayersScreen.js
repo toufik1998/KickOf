@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, FlatList, } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
 import { Card, ListItem, Avatar } from 'react-native-elements';
-import { fetchPlayers } from '../slices/playersApiSlice';
+import { fetchPlayers, fetchPlayerDetails } from '../slices/playersApiSlice';
 
 const styles = StyleSheet.create({
   card: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 });
 
 
-function PlayersScreen() {
+function PlayersScreen({navigation}) {
 
     const dispatch = useDispatch();
     const players = useSelector((state) => state.players.entities);
@@ -50,24 +50,31 @@ function PlayersScreen() {
       console.warn(players.data);
       return (
         <View>
-        <FlatList
-          data={players.data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Card containerStyle={styles.card}>
-              <ListItem bottomDivider>
-                <Avatar source={{uri: item.image_path}} containerStyle={styles.avatar} size={"large"}/>
-                <ListItem>
-                  <ListItem.Title>{`${item.common_name}`}</ListItem.Title>
-                  <ListItem.Title>{`${item.country.borders[0]}`}</ListItem.Title>
-                  <Image source={{ uri: item?.country?.image_path }} style={styles.image} />
-                  {/* <ListItem.Title>{`${item.position.name}`}</ListItem.Title> */}
+        
+          <FlatList
+            data={players.data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity key={item.id} onPress={() => {
+                dispatch(fetchPlayerDetails(item.id));
+                navigation.navigate('playerDetails', { playerId: item.id });
+                }}>
+                <Card containerStyle={styles.card}>
+                  <ListItem bottomDivider>
+                    <Avatar source={{uri: item.image_path}} containerStyle={styles.avatar} size={"large"}/>
+                    <ListItem>
+                      <ListItem.Title>{`${item.common_name}`}</ListItem.Title>
+                      <ListItem.Title>{`${item.country.borders[0]}`}</ListItem.Title>
+                      <Image source={{ uri: item?.country?.image_path }} style={styles.image} />
+                      {/* <ListItem.Title>{`${item.position.name}`}</ListItem.Title> */}
 
-                </ListItem>
-              </ListItem>
-            </Card>
-          )}
-        />
+                    </ListItem>
+                  </ListItem>
+                </Card>
+              </TouchableOpacity>  
+
+            )}
+          />
         </View>
       );
 }

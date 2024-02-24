@@ -33,7 +33,7 @@ function HomeScreen({navigation}) {
         return (
           <TouchableOpacity key={match.id} onPress={() => {
              dispatch(fetchMatchDetails(match.id));
-             navigation.navigate('MatchDetails', { matchId: match.id });
+             navigation.navigate('matchDetails', { matchId: match.id });
              }}>
             <View key={match.id} style={styles.card}>
               <Image source={{ uri: match?.participants[0]?.image_path }} style={styles.image} />
