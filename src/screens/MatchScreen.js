@@ -6,42 +6,6 @@ import { addFavourite, deleteFavourite } from "../slices/favouritesApiSlice";
 import { FontAwesome } from '@expo/vector-icons';
 
 
-// function MatchScreen({ navigation, route }) {
-//     const dispatch = useDispatch();
-//   const { matchId } = route.params;
-//   const matchDetails = useSelector((state) => state.matches.matchDetails);
-  
-
-//     useEffect(() => {
-//     dispatch(fetchMatchDetails(matchId));
-//     }, [dispatch, matchId]);
-
-    
-   
-
-
-//     if (!matchDetails) return <Text>Loading...</Text>;
-
-  
-
-
-//     // const {data} = matchDetails;
-//     // console.warn(matchDetails);
-
-//     if (!matchDetails) return <Text>Loading...</Text>;
-
-//   return (
-//       <View style={styles.container}>
-//         <Image style={styles.tinyLogo} source={{ uri: matchDetails?.data?.league?.image_path }} />
-//         <Text>{matchDetails?.data?.league?.name}</Text>
-//         <Text>{matchDetails?.data?.name}</Text>
-//         <Text>{matchDetails?.data?.starting_at}</Text>
-//         <Text>{matchDetails?.data?.result_info}</Text>
-//       </View>
-
-//   );
-// }
-
 function MatchScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const { matchId } = route.params;
@@ -66,18 +30,20 @@ function MatchScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleSave}>
-        <FontAwesome
-          name="heart"
-          size={50}
-          color={isFavourite ? 'red' : 'black'}
-        />
-      </TouchableOpacity>
-      <Image style={styles.tinyLogo} source={{ uri: matchDetails?.data?.league?.image_path }} />
-      <Text>{matchDetails?.data?.league?.name}</Text>
-      <Text>{matchDetails?.data?.name}</Text>
-      <Text>{matchDetails?.data?.starting_at}</Text>
-      <Text>{matchDetails?.data?.result_info}</Text>
+        <View style={styles.card}>
+          <TouchableOpacity onPress={handleSave} style={styles.favourites}>
+            <FontAwesome
+              name="heart"
+              size={50}
+              color={isFavourite ? 'red' : 'black'}
+            />
+          </TouchableOpacity>
+          <Image style={styles.tinyLogo} source={{ uri: matchDetails?.data?.league?.image_path }} />
+          <Text style={styles.text}>{matchDetails?.data?.league?.name}</Text>
+          <Text style={styles.text}>{matchDetails?.data?.name}</Text>
+          <Text style={styles.text}>{matchDetails?.data?.starting_at}</Text>
+          <Text style={styles.text}>{matchDetails?.data?.result_info}</Text>
+        </View>
     </View>
   );
 }
@@ -85,15 +51,38 @@ function MatchScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'start',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  card: {
+    height: '70%',
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 8, height: 8 },
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
+    elevation: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    borderWidth: 1, // Add border width
+    borderColor: '#eee', // Add border color
+  },
+  favourites: {
+    marginBottom: 30,
   },
   tinyLogo: {
     width: 150,
     height: 135,
+    marginBottom: 20,
   },
-  
+  text: {
+    marginVertical: 8, 
+  }
 });
 
 export default MatchScreen;
