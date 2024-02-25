@@ -52,15 +52,14 @@ function PlayersScreen({navigation}) {
         dispatch(fetchPlayers());
       }, [dispatch]);
 
-      console.log(players);
     // Add this function
     const filteredPlayers = players.data
       ? players.data.filter(player =>
           player.common_name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : [];
-        console.warn(filteredPlayers);
-    return (
+
+      return (
         <View>
           <TextInput
             style={{ height: 40, borderColor: 'gray', borderWidth: 1, width: '80%', alignSelf: 'center', margin: 10, padding: 10, borderRadius: 10}}

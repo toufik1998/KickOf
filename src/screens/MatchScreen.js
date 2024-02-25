@@ -31,7 +31,7 @@ function MatchScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
         <View style={styles.card}>
-          <TouchableOpacity onPress={handleSave} style={styles.favourites}>
+          <TouchableOpacity onPress={handleSave} style={styles.favourites} testID="favourite-button">
             <FontAwesome
               name="heart"
               size={50}
