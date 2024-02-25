@@ -1,86 +1,3 @@
-// import React, {useEffect} from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, FlatList, } from "react-native";
-// import { Card, ListItem, Avatar } from 'react-native-elements';
-// import { fetchPlayers, fetchPlayerDetails } from '../slices/playersApiSlice';
-
-// const styles = StyleSheet.create({
-//   card: {
-//     borderRadius: 10,
-//     shadowColor: '#000',
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.3,
-//     shadowRadius: 2,
-//     marginVertical: 10,
-//     marginHorizontal: 10,
-//     display: 'flex',
-//     alignContent: 'center',
-//     justifyContent: 'space-between',
-//     flexDirection: 'row',
-//   },
-
-//   avatar: {
-//     borderWidth: 2,
-//     borderColor: 'black',
-//     borderRadius: 50,
-//     padding: 10,
-//   },
-
-//   image: {
-//     width: 80, // adjust as needed
-//     height: 80, // adjust as needed
-//     borderWidth: 2,
-//     borderColor: 'black',
-//     borderRadius: 50,
-//     padding: 10,
-//   },
-// });
-
-
-// function PlayersScreen({navigation}) {
-
-//     const dispatch = useDispatch();
-//     const players = useSelector((state) => state.players.entities);
-//     const loading = useSelector((state) => state.players.loading);
-
-//     useEffect(() => {
-//         dispatch(fetchPlayers());
-//       }, [dispatch]);
-
-//       console.warn(players.data);
-//       return (
-//         <View>
-        
-//           <FlatList
-//             data={players.data}
-//             keyExtractor={(item) => item.id.toString()}
-//             renderItem={({ item }) => (
-//               <TouchableOpacity key={item.id} onPress={() => {
-//                 dispatch(fetchPlayerDetails(item.id));
-//                 navigation.navigate('playerDetails', { playerId: item.id });
-//                 }}>
-//                 <Card containerStyle={styles.card}>
-//                   <ListItem bottomDivider>
-//                     <Avatar source={{uri: item.image_path}} containerStyle={styles.avatar} size={"large"}/>
-//                     <ListItem>
-//                       <ListItem.Title>{`${item.common_name}`}</ListItem.Title>
-//                       <ListItem.Title>{`${item.country.borders[0]}`}</ListItem.Title>
-//                       <Image source={{ uri: item?.country?.image_path }} style={styles.image} />
-//                       {/* <ListItem.Title>{`${item.position.name}`}</ListItem.Title> */}
-
-//                     </ListItem>
-//                   </ListItem>
-//                 </Card>
-//               </TouchableOpacity>  
-
-//             )}
-//           />
-//         </View>
-//       );
-// }
-
-// export default PlayersScreen
-
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, FlatList, TextInput } from "react-native";
@@ -88,34 +5,38 @@ import { Card, ListItem, Avatar } from 'react-native-elements';
 import { fetchPlayers, fetchPlayerDetails } from '../slices/playersApiSlice';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    alignSelf: 'center'
+  },
   card: {
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    marginVertical: 10,
-    marginHorizontal: 10,
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-  },
+    margin: 10,
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 5,
+    width: 350,
 
-  avatar: {
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 50,
-    padding: 10,
+  },
+  text: {
+    fontSize: 16,
+    textAlign: 'center',
   },
 
   image: {
-    width: 80, // adjust as needed
-    height: 80, // adjust as needed
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 50,
-    padding: 10,
+    width: 50, 
+    height: 50, 
   },
 });
 
@@ -138,7 +59,7 @@ function PlayersScreen({navigation}) {
           player.common_name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : [];
-
+        console.warn(filteredPlayers);
     return (
         <View>
           <TextInput
@@ -148,28 +69,27 @@ function PlayersScreen({navigation}) {
             placeholder="Search players"
           />
 
-          <FlatList
-            data={filteredPlayers} // Use filteredPlayers instead of players.data
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity key={item.id} onPress={() => {
-                dispatch(fetchPlayerDetails(item.id));
-                navigation.navigate('playerDetails', { playerId: item.id });
-                }}>
-                <Card containerStyle={styles.card}>
-                  <ListItem bottomDivider>
-                    <Avatar source={{uri: item.image_path}} containerStyle={styles.avatar} size={"large"}/>
-                    <ListItem>
-                      <ListItem.Title>{`${item.common_name}`}</ListItem.Title>
-                      <ListItem.Title>{`${item.country.borders[0]}`}</ListItem.Title>
-                      <Image source={{ uri: item?.country?.image_path }} style={styles.image} />
-                      {/* <ListItem.Title>{`${item.position.name}`}</ListItem.Title> */}
-                    </ListItem>
-                  </ListItem>
-                </Card>
-              </TouchableOpacity>  
-            )}
-          />
+          <ScrollView horizontal={false}>
+                <View style={styles.container}>
+                {filteredPlayers && filteredPlayers.map((player) => {
+                  return (
+                    <TouchableOpacity key={player.id} onPress={() => {
+                      dispatch(fetchPlayerDetails(player.id));
+                      navigation.navigate('playerDetails', { playerId: player.id });
+                      }}>
+                      <View key={player.id} style={styles.card}>
+                        <Image source={{ uri: player?.image_path }} style={styles.image} />
+                        <View >
+                        <Text style={styles.text}>{player.common_name}</Text>
+                        <Text style={styles.text}>{player.country.borders[0]}</Text>
+                        </View>
+                        <Image source={{ uri: player?.country?.image_path }} style={styles.image} />
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+                </View>
+          </ScrollView>
         </View>
       );
 }
