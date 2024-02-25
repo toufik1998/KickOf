@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchMatches, fetchMatchDetails } from '../slices/matchesApiSlice';
 import axios from 'axios';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image } from 'react-native'
-import { useGetMatchesQuery } from '../slices/matchesApiSlice'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Image, ActivityIndicator } from 'react-native'
 
 function HomeScreen({navigation}) {
 
@@ -15,16 +14,16 @@ function HomeScreen({navigation}) {
     dispatch(fetchMatches());
   }, [dispatch]);
 
-  // console.log(matches.data[0].participants[0].image_path);
-  if (loading === 'loading') return <Text>Loading...</Text>;
+  if (loading === 'loading') {
+    return ( 
+    <View style={styles.loadingIcon}>
+      <ActivityIndicator size="xlarge" color="#000" />
+    </View>
+    ); 
+  }; 
 
   return (
     <ScrollView horizontal={false}>
-      <View>
-        {/* <Text style={styles.welcome}>Welcome</Text> */}
-        {/* <Text style={styles.welcome}>KickOf The Best LiveScores App</Text> */}
-        {/* <Text style={styles.welcome}>Get the latest scores, news, and more</Text> */}
-      </View>
       <View style={styles.container}>
       {matches.data && matches.data.map((match) => {
         const date = new Date(match.starting_at);
@@ -88,8 +87,13 @@ const styles = StyleSheet.create({
     color:'#0a4f90',
   },
   image: {
-    width: 50, // adjust as needed
-    height: 50, // adjust as needed
+    width: 50, 
+    height: 50, 
+  },
+  loadingIcon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

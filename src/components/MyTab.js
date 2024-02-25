@@ -5,11 +5,11 @@ import { View, StyleSheet } from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
 import MatchScreen from '../screens/MatchScreen';
-import TeamsScreen from '../screens/TeamsScreen';
+import TeamsScreen from '../screens/WelcomeScreen';
 import TeamScreen from '../screens/TeamDetailsScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import PlayersScreen from '../screens/PlayersScreen';
-
+import WelcomeScreen from '../screens/WelcomeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,21 +26,23 @@ function MyTab() {
       tabBarLabelStyle: { fontSize: 16 },
     }}
     >
-    <Tab.Screen name="Home" component={HomeScreen} 
+   
+    <Tab.Screen name="Welcome" component={WelcomeScreen} 
         options={{
-        tabBarLabel: 'Home',
+        tabBarLabel: 'Welcome',
         tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
         ),
         }}
     />
-    <Tab.Screen name="Match" component={MatchScreen} 
-        options={{
-        tabBarLabel: 'Match',
-        tabBarIcon: ({ color, size }) => (
-            <Ionicons name="football" color={color} size={size} />
-        ),
-        }}
+
+    <Tab.Screen name="Home" component={HomeScreen} 
+            options={{
+            tabBarLabel: 'Matches',
+            tabBarIcon: ({ color, size }) => (
+                <Ionicons name="football" color={color} size={size} />
+            ),
+            }}
     />
     <Tab.Screen name="Players" component={PlayersScreen} 
         options={{
