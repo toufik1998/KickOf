@@ -15,7 +15,6 @@ function PlayerDetailsScreen({ navigation, route}) {
 
   console.warn("p",playerDetails);
 
-  // console.warn(playerId);
   return (
     <ScrollView style={styles.container}>
         <Image style={styles.image} source={{uri: playerDetails?.data?.image_path}} />
@@ -29,9 +28,7 @@ function PlayerDetailsScreen({ navigation, route}) {
         <Image style={styles.countryImage} source={{uri: playerDetails?.data?.country?.image_path}} />
         <Text style={styles.details}>Position: {playerDetails?.data?.position?.name}</Text>
     </ScrollView>
-    // <View>
-    //   <Text>yetdfhs</Text>
-    // </View>
+    
   )
 }
 
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    height: 200,
+    height: 350,
     width: '100%',
     resizeMode: 'cover',
   },
