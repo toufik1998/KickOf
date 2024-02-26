@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  kickof:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    environment:
+      - NODE_ENV=development
+    tty: true
+    ports:
+      - '8081:8081'
+    healthcheck:
+      disable: true
+
+volumes:
+  notused:
