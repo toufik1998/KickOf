@@ -2,7 +2,19 @@
 KickOff is a mobile application developed with React Native Expo that allows users to view live football matches. Users can follow their favorite teams and players, get real-time updates on match scores, and check detailed player statistics. The application offers a complete experience for football enthusiasts to stay connected with the action of the latest matches.
 
 ## Usage
-git clone https://github.com/your-username/kickoff.git cd kickoff npm install
+git clone https://github.com/toufik1998/KickOf.git cd kickoff npm install
+
+## Envirenement configuration
+Before launching the application, make sure you have the following elements installed on your machine:
+
+- Node.js (recommended version)
+- npm (installed with Node.js)
+- React Native Expo
+
+## Installing Dependencies
+In the project directory, execute the following command to install all the necessary dependencies:
+
+npm install
 
 Run the App ( npm start )
 
